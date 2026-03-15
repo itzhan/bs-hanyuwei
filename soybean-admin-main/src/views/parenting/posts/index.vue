@@ -153,7 +153,7 @@ onMounted(() => {
       <NDataTable remote :loading="loading" :columns="columns" :data="data" :pagination="pagination" />
     </NCard>
 
-    <NModal v-model:show="statusModalVisible" preset="card" title="审核操作" style="width: 420px">
+    <NModal v-model:show="statusModalVisible" preset="card" title="审核操作" :block-scroll="false" style="width: 420px">
       <NForm label-placement="left" label-width="90">
         <NFormItem label="状态">
           <NSelect v-model:value="statusForm.status" :options="statusOptions" />

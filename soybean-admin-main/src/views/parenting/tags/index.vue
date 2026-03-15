@@ -109,7 +109,7 @@ onMounted(() => {
       <NDataTable :loading="loading" :columns="columns" :data="data" />
     </NCard>
 
-    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" style="width: 420px">
+    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" :block-scroll="false" style="width: 420px">
       <NForm label-placement="left" label-width="90">
         <NFormItem label="名称">
           <NInput v-model:value="formModel.name" placeholder="标签名称" />

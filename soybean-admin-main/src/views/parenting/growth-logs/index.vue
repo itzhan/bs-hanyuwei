@@ -47,7 +47,7 @@ const formModel = reactive({
   logType: 1,
   title: '',
   content: '',
-  logTime: ''
+  logTime: null as string | null
 });
 
 function resetForm() {
@@ -56,7 +56,7 @@ function resetForm() {
   formModel.logType = 1;
   formModel.title = '';
   formModel.content = '';
-  formModel.logTime = '';
+  formModel.logTime = null;
 }
 
 function openCreate() {
@@ -75,7 +75,7 @@ function openEdit(row: GrowthLogItem) {
   formModel.logType = row.logType;
   formModel.title = row.title || '';
   formModel.content = row.content || '';
-  formModel.logTime = row.logTime;
+  formModel.logTime = row.logTime || null;
   modalVisible.value = true;
 }
 
@@ -220,7 +220,7 @@ onMounted(() => {
       <NDataTable remote :loading="loading" :columns="columns" :data="data" :pagination="pagination" />
     </NCard>
 
-    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" style="width: 560px">
+    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" :block-scroll="false" style="width: 560px">
       <NForm label-placement="left" label-width="90">
         <NFormItem label="宝宝ID">
           <NInputNumber v-model:value="formModel.babyId" placeholder="宝宝ID" />
@@ -239,6 +239,7 @@ onMounted(() => {
             v-model:formatted-value="formModel.logTime"
             type="datetime"
             value-format="yyyy-MM-dd'T'HH:mm:ss"
+            clearable
           />
         </NFormItem>
       </NForm>

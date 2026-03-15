@@ -232,7 +232,7 @@ onMounted(() => {
       />
     </NCard>
 
-    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" style="width: 520px">
+    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" :block-scroll="false" style="width: 520px">
       <NForm label-placement="left" label-width="90">
         <NFormItem label="用户名" v-if="!isEdit">
           <NInput v-model:value="formModel.username" placeholder="输入用户名" />

@@ -255,3 +255,16 @@ export function deleteTag(id: number) {
 export function fetchCommunityOverview(days: number) {
   return request<{ postDaily: any[]; commentDaily: any[] }>({ url: '/stats/community/overview', params: { days } });
 }
+
+export function fetchDashboardStats() {
+  return request<{
+    userCount: number;
+    postCount: number;
+    babyCount: number;
+    commentCount: number;
+    categoryStats: { name: string; value: number }[];
+    recentPosts: { id: number; title: string; authorName: string; status: number; createdAt: string }[];
+    postDaily: { day: string; total: number }[];
+    commentDaily: { day: string; total: number }[];
+  }>({ url: '/stats/dashboard' });
+}

@@ -13,7 +13,6 @@ import ResetPwd from './modules/reset-pwd.vue';
 import BindWechat from './modules/bind-wechat.vue';
 
 interface Props {
-  /** The login module */
   module?: UnionKey.LoginModule;
 }
 
@@ -43,9 +42,7 @@ const bgThemeColor = computed(() =>
 
 const bgColor = computed(() => {
   const COLOR_WHITE = '#ffffff';
-
   const ratio = themeStore.darkMode ? 0.5 : 0.2;
-
   return mixColor(COLOR_WHITE, themeStore.themeColor, ratio);
 });
 </script>
@@ -55,14 +52,22 @@ const bgColor = computed(() => {
     <WaveBg :theme-color="bgThemeColor" />
     <NCard :bordered="false" class="relative z-4 w-auto rd-12px">
       <div class="w-400px lt-sm:w-300px">
-        <header class="flex-y-center justify-between">
-          <SystemLogo class="size-64px lt-sm:size-48px" />
-          <h3 class="text-28px text-primary font-500 lt-sm:text-22px">{{ $t('system.title') }}</h3>
-          <div class="i-flex-col">
+        <!-- Login header with parenting branding -->
+        <header class="flex-col flex-center gap-8px pb-8px">
+          <div class="flex-y-center gap-12px">
+            <div class="size-56px flex-center rd-1/2 bg-primary/10">
+              <SvgIcon icon="lucide:baby" class="text-32px text-primary" />
+            </div>
+            <div>
+              <h2 class="text-24px text-primary font-700 lt-sm:text-20px m-0">{{ $t('system.title') }}</h2>
+              <p class="text-12px text-#999 m-0">关注宝宝成长 · 分享育儿经验</p>
+            </div>
+          </div>
+          <div class="flex-y-center gap-8px">
             <ThemeSchemaSwitch
               :theme-schema="themeStore.themeScheme"
               :show-tooltip="false"
-              class="text-20px lt-sm:text-18px"
+              class="text-18px"
               @switch="themeStore.toggleThemeScheme"
             />
             <LangSwitch
@@ -74,7 +79,26 @@ const bgColor = computed(() => {
             />
           </div>
         </header>
-        <main class="pt-24px">
+        <!-- Feature icons bar -->
+        <div class="flex justify-center gap-24px py-12px border-t border-b border-primary/10 mb-16px">
+          <div class="flex-col flex-center gap-4px">
+            <SvgIcon icon="lucide:heart" class="text-20px text-primary" />
+            <span class="text-11px text-#999">成长记录</span>
+          </div>
+          <div class="flex-col flex-center gap-4px">
+            <SvgIcon icon="lucide:users" class="text-20px text-primary" />
+            <span class="text-11px text-#999">社区交流</span>
+          </div>
+          <div class="flex-col flex-center gap-4px">
+            <SvgIcon icon="lucide:bar-chart-2" class="text-20px text-primary" />
+            <span class="text-11px text-#999">数据统计</span>
+          </div>
+          <div class="flex-col flex-center gap-4px">
+            <SvgIcon icon="lucide:shield" class="text-20px text-primary" />
+            <span class="text-11px text-#999">内容管理</span>
+          </div>
+        </div>
+        <main>
           <h3 class="text-18px text-primary font-medium">{{ $t(activeModule.label) }}</h3>
           <div class="pt-24px">
             <Transition :name="themeStore.page.animateMode" mode="out-in" appear>

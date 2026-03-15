@@ -70,4 +70,18 @@ public class StatsController {
         data.put("commentDaily", statsMapper.commentDailyCount(days));
         return ApiResponse.ok(data);
     }
+
+    @GetMapping("/dashboard")
+    public ApiResponse<Map<String, Object>> dashboard() {
+        Map<String, Object> data = new HashMap<>();
+        data.put("userCount", statsMapper.userCount());
+        data.put("postCount", statsMapper.postCount());
+        data.put("babyCount", statsMapper.babyCount());
+        data.put("commentCount", statsMapper.commentCount());
+        data.put("categoryStats", statsMapper.categoryPostStats());
+        data.put("recentPosts", statsMapper.recentPosts());
+        data.put("postDaily", statsMapper.postDailyCount(30));
+        data.put("commentDaily", statsMapper.commentDailyCount(30));
+        return ApiResponse.ok(data);
+    }
 }

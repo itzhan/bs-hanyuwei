@@ -1,79 +1,210 @@
+/* ============================
+   育儿社区 — 柔美亲子风设计系统
+   ============================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* ---- Primary ---- */
+  --color-primary: #7C6FBF;
+  --color-primary-light: #9B8FD4;
+  --color-primary-lighter: #E8E4F5;
+  --color-primary-dark: #5A4E9A;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* ---- Accent ---- */
+  --color-accent: #F2994A;
+  --color-accent-light: #FFBE85;
+  --color-accent-dark: #D97A2E;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  /* ---- Surface ---- */
+  --color-bg: #FAF8F5;
+  --color-card: #FFFFFF;
+  --color-card-hover: #FDFCFA;
+
+  /* ---- Neutral / Text ---- */
+  --color-text-primary: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-text-tertiary: #94A3B8;
+  --color-border: #E2E8F0;
+  --color-border-light: #F1F5F9;
+  --color-divider: #F1F5F9;
+
+  /* ---- Semantic ---- */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+
+  /* ---- Typography ---- */
+  --font-family: 'Inter', -apple-system, 'PingFang SC', 'Noto Sans SC', 'Helvetica Neue', sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+
+  /* ---- Spacing ---- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+  --space-4xl: 64px;
+
+  /* ---- Radius ---- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ---- Shadow ---- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+  /* ---- Transition ---- */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+  --transition-slow: 0.4s ease;
+
+  /* ---- Layout ---- */
+  --header-height: 64px;
+  --content-max-width: 1200px;
+}
+
+/* ---- Reset ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  font-family: var(--font-family);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg);
+  line-height: 1.6;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+#app {
+  min-height: 100vh;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
 }
-button:hover {
-  border-color: #646cff;
+
+a:hover {
+  color: var(--color-primary-dark);
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-border-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-tertiary);
+}
+
+/* ---- Utilities ---- */
+.container {
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+.section {
+  padding: var(--space-3xl) 0;
+}
+
+.page-title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xl);
+}
+
+.page-subtitle {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-2xl);
 }
 
 .card {
-  padding: 2em;
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-xl);
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.card:hover {
+  box-shadow: var(--shadow-md);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.accent-text {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* ---- 动画 ---- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  a:hover {
-    color: #747bff;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  button {
-    background-color: #f9f9f9;
-  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* ---- Tag 样式 ---- */
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  background: var(--color-primary-lighter);
+  color: var(--color-primary);
 }

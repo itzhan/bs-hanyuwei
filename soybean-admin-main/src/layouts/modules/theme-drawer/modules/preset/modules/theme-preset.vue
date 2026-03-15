@@ -145,10 +145,10 @@ const applyPreset = (preset: ThemePreset): void => {
         </div>
         <div class="flex items-center gap-1">
           <div class="text-lg">
-            {{ preset.themeScheme === 'dark' ? '🌙' : '☀️' }}
+            <SvgIcon :icon="preset.themeScheme === 'dark' ? 'lucide:moon' : 'lucide:sun'" class="text-16px" />
           </div>
           <div class="text-lg">
-            {{ preset.grayscale ? '🎨' : '' }}
+            <SvgIcon v-if="preset.grayscale" icon="lucide:palette" class="text-16px" />
           </div>
         </div>
       </div>

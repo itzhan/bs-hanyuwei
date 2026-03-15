@@ -46,7 +46,7 @@ const formModel = reactive({
   metricType: 1,
   metricValue: null as number | null,
   unit: '',
-  recordedAt: '',
+  recordedAt: null as string | null,
   note: ''
 });
 
@@ -56,7 +56,7 @@ function resetForm() {
   formModel.metricType = 1;
   formModel.metricValue = null;
   formModel.unit = '';
-  formModel.recordedAt = '';
+  formModel.recordedAt = null;
   formModel.note = '';
 }
 
@@ -76,7 +76,7 @@ function openEdit(row: GrowthMetricItem) {
   formModel.metricType = row.metricType;
   formModel.metricValue = Number(row.metricValue);
   formModel.unit = row.unit || '';
-  formModel.recordedAt = row.recordedAt;
+  formModel.recordedAt = row.recordedAt || null;
   formModel.note = row.note || '';
   modalVisible.value = true;
 }
@@ -228,7 +228,7 @@ onMounted(() => {
       <NDataTable remote :loading="loading" :columns="columns" :data="data" :pagination="pagination" />
     </NCard>
 
-    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" style="width: 560px">
+    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" :block-scroll="false" style="width: 560px">
       <NForm label-placement="left" label-width="90">
         <NFormItem label="宝宝ID">
           <NInputNumber v-model:value="formModel.babyId" placeholder="宝宝ID" />
@@ -247,6 +247,7 @@ onMounted(() => {
             v-model:formatted-value="formModel.recordedAt"
             type="datetime"
             value-format="yyyy-MM-dd'T'HH:mm:ss"
+            clearable
           />
         </NFormItem>
         <NFormItem label="备注">

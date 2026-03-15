@@ -33,7 +33,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/dicts/**", "/uploads/**").permitAll()
+                        /* 完全公开 */
+                        .requestMatchers("/api/auth/**", "/api/dicts", "/api/dicts/**", "/uploads/**").permitAll()
+                        /* 用户端公开 GET 接口 */
+                        .requestMatchers(org.springframework.http.HttpMethod.GET,
+                                "/api/posts", "/api/posts/{id}",
+                                "/api/posts/{postId}/comments",
+                                "/api/categories", "/api/topics", "/api/tags",
+                                "/api/stats/dashboard", "/api/stats/community/overview"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

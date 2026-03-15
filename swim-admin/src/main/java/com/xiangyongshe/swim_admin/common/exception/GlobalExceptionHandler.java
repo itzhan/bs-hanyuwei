@@ -4,6 +4,7 @@ import com.xiangyongshe.swim_admin.common.response.ApiResponse;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     public ApiResponse<Void> handleAccessDenied(AccessDeniedException ex) {
         return ApiResponse.fail(HttpStatus.FORBIDDEN.value(), "无权限");
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ApiResponse<Void> handleAuthentication(AuthenticationException ex) {
+        return ApiResponse.fail(401, "用户名或密码错误");
     }
 
     @ExceptionHandler(Exception.class)

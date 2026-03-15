@@ -1,17 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useAppStore } from '@/store/modules/app';
 import { useAuthStore } from '@/store/modules/auth';
+import { fetchDashboardStats } from '@/service/api';
 import { $t } from '@/locales';
 
-defineOptions({
-  name: 'HeaderBanner'
-});
+defineOptions({ name: 'HeaderBanner' });
 
 const appStore = useAppStore();
 const authStore = useAuthStore();
-
 const gap = computed(() => (appStore.isMobile ? 0 : 16));
+
+const stats = ref({ userCount: 0, pendingPosts: 0, pendingReports: 0 });
+
+onMounted(async () => {
+  const { data, error } = await fetchDashboardStats();
+  if (!error && data) {
+    stats.value.userCount = data.userCount || 0;
+    stats.value.pendingPosts = data.postCount || 0;
+    stats.value.pendingReports = data.commentCount || 0;
+  }
+});
 
 interface StatisticData {
   id: number;
@@ -20,21 +29,9 @@ interface StatisticData {
 }
 
 const statisticData = computed<StatisticData[]>(() => [
-  {
-    id: 0,
-    label: $t('page.home.projectCount'),
-    value: '25'
-  },
-  {
-    id: 1,
-    label: $t('page.home.todo'),
-    value: '4/16'
-  },
-  {
-    id: 2,
-    label: $t('page.home.message'),
-    value: '12'
-  }
+  { id: 0, label: '注册家长', value: String(stats.value.userCount) },
+  { id: 1, label: '社区帖子', value: String(stats.value.pendingPosts) },
+  { id: 2, label: '互动评论', value: String(stats.value.pendingReports) }
 ]);
 </script>
 
@@ -43,8 +40,8 @@ const statisticData = computed<StatisticData[]>(() => [
     <NGrid :x-gap="gap" :y-gap="16" responsive="screen" item-responsive>
       <NGi span="24 s:24 m:18">
         <div class="flex-y-center">
-          <div class="size-72px shrink-0 overflow-hidden rd-1/2">
-            <img src="@/assets/imgs/soybean.jpg" class="size-full" />
+          <div class="size-72px shrink-0 flex-center rd-1/2 bg-primary/10">
+            <SvgIcon icon="lucide:baby" class="text-36px text-primary" />
           </div>
           <div class="pl-12px">
             <h3 class="text-18px font-semibold">

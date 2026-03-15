@@ -40,7 +40,7 @@ const formModel = reactive({
   id: null as number | null,
   name: '',
   gender: 0,
-  birthday: '' as string | null,
+  birthday: null as string | null,
   relation: '',
   note: ''
 });
@@ -49,7 +49,7 @@ function resetForm() {
   formModel.id = null;
   formModel.name = '';
   formModel.gender = 0;
-  formModel.birthday = '' as string | null;
+  formModel.birthday = null;
   formModel.relation = '';
   formModel.note = '';
 }
@@ -195,7 +195,7 @@ onMounted(() => {
       <NDataTable remote :loading="loading" :columns="columns" :data="data" :pagination="pagination" />
     </NCard>
 
-    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" style="width: 520px">
+    <NModal v-model:show="modalVisible" preset="card" :title="modalTitle" :block-scroll="false" style="width: 520px">
       <NForm label-placement="left" label-width="90">
         <NFormItem label="姓名">
           <NInput v-model:value="formModel.name" placeholder="宝宝姓名" />
@@ -204,7 +204,7 @@ onMounted(() => {
           <NSelect v-model:value="formModel.gender" :options="genderOptions" />
         </NFormItem>
         <NFormItem label="生日">
-          <NDatePicker v-model:formatted-value="formModel.birthday" type="date" value-format="yyyy-MM-dd" />
+          <NDatePicker v-model:formatted-value="formModel.birthday" type="date" value-format="yyyy-MM-dd" clearable />
         </NFormItem>
         <NFormItem label="关系">
           <NInput v-model:value="formModel.relation" placeholder="关系" />

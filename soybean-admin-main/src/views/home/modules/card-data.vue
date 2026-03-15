@@ -1,78 +1,71 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import { createReusableTemplate } from '@vueuse/core';
 import { useThemeStore } from '@/store/modules/theme';
+import { fetchDashboardStats } from '@/service/api';
 import { $t } from '@/locales';
 
-defineOptions({
-  name: 'CardData'
-});
+defineOptions({ name: 'CardData' });
 
 interface CardData {
   key: string;
   title: string;
   value: number;
   unit: string;
-  color: {
-    start: string;
-    end: string;
-  };
+  color: { start: string; end: string };
   icon: string;
 }
 
-const cardData = computed<CardData[]>(() => [
+const cards = ref<CardData[]>([
   {
-    key: 'visitCount',
-    title: $t('page.home.visitCount'),
-    value: 9725,
+    key: 'userCount',
+    title: '注册用户',
+    value: 0,
     unit: '',
-    color: {
-      start: '#ec4786',
-      end: '#b955a4'
-    },
-    icon: 'ant-design:bar-chart-outlined'
+    color: { start: '#ec4786', end: '#b955a4' },
+    icon: 'lucide:users'
   },
   {
-    key: 'turnover',
-    title: $t('page.home.turnover'),
-    value: 1026,
-    unit: '$',
-    color: {
-      start: '#865ec0',
-      end: '#5144b4'
-    },
-    icon: 'ant-design:money-collect-outlined'
+    key: 'postCount',
+    title: '帖子总数',
+    value: 0,
+    unit: '',
+    color: { start: '#865ec0', end: '#5144b4' },
+    icon: 'lucide:file-text'
   },
   {
-    key: 'downloadCount',
-    title: $t('page.home.downloadCount'),
-    value: 970925,
+    key: 'babyCount',
+    title: '宝宝档案',
+    value: 0,
     unit: '',
-    color: {
-      start: '#56cdf3',
-      end: '#719de3'
-    },
-    icon: 'carbon:document-download'
+    color: { start: '#56cdf3', end: '#719de3' },
+    icon: 'lucide:baby'
   },
   {
-    key: 'dealCount',
-    title: $t('page.home.dealCount'),
-    value: 9527,
+    key: 'commentCount',
+    title: '评论总数',
+    value: 0,
     unit: '',
-    color: {
-      start: '#fcbc25',
-      end: '#f68057'
-    },
-    icon: 'ant-design:trademark-circle-outlined'
+    color: { start: '#fcbc25', end: '#f68057' },
+    icon: 'lucide:message-circle'
   }
 ]);
+
+onMounted(async () => {
+  const { data, error } = await fetchDashboardStats();
+  if (!error && data) {
+    cards.value[0].value = data.userCount || 0;
+    cards.value[1].value = data.postCount || 0;
+    cards.value[2].value = data.babyCount || 0;
+    cards.value[3].value = data.commentCount || 0;
+  }
+});
 
 interface GradientBgProps {
   gradientColor: string;
 }
 
 const [DefineGradientBg, GradientBg] = createReusableTemplate<GradientBgProps>();
-
 const themeStore = useThemeStore();
 
 function getGradientColor(color: CardData['color']) {
@@ -82,7 +75,6 @@ function getGradientColor(color: CardData['color']) {
 
 <template>
   <NCard :bordered="false" size="small" class="card-wrapper">
-    <!-- define component start: GradientBg -->
     <DefineGradientBg v-slot="{ $slots, gradientColor }">
       <div
         class="px-16px pb-4px pt-8px text-white"
@@ -91,10 +83,9 @@ function getGradientColor(color: CardData['color']) {
         <component :is="$slots.default" />
       </div>
     </DefineGradientBg>
-    <!-- define component end: GradientBg -->
 
     <NGrid cols="s:1 m:2 l:4" responsive="screen" :x-gap="16" :y-gap="16">
-      <NGi v-for="item in cardData" :key="item.key">
+      <NGi v-for="item in cards" :key="item.key">
         <GradientBg :gradient-color="getGradientColor(item.color)" class="flex-1">
           <h3 class="text-16px">{{ item.title }}</h3>
           <div class="flex justify-between pt-12px">

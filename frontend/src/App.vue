@@ -1,30 +1,47 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import { NConfigProvider, NMessageProvider, NDialogProvider, useMessage, type GlobalThemeOverrides } from 'naive-ui'
+import { defineComponent } from 'vue'
+
+const themeOverrides: GlobalThemeOverrides = {
+  common: {
+    primaryColor: '#7C6FBF',
+    primaryColorHover: '#9B8FD4',
+    primaryColorPressed: '#5A4E9A',
+    primaryColorSuppl: '#9B8FD4',
+    borderRadius: '10px',
+    borderRadiusSmall: '6px',
+    fontFamily: "'Inter', -apple-system, 'PingFang SC', 'Noto Sans SC', sans-serif",
+  },
+  Button: {
+    borderRadiusMedium: '10px',
+    borderRadiusLarge: '12px',
+  },
+  Card: {
+    borderRadius: '16px',
+  },
+  Input: {
+    borderRadius: '10px',
+  },
+}
+
+/* 注入全局 $message 到 window 供 axios 拦截器使用 */
+const MessageInjector = defineComponent({
+  name: 'MessageInjector',
+  setup() {
+    const message = useMessage()
+    window.$message = message
+    return () => null
+  },
+})
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <NConfigProvider :theme-overrides="themeOverrides">
+    <NMessageProvider>
+      <NDialogProvider>
+        <MessageInjector />
+        <router-view />
+      </NDialogProvider>
+    </NMessageProvider>
+  </NConfigProvider>
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
